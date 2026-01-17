@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stability of Equilibrium | Class 2</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Stability of Equilibrium</h1>
+  <p>How markets return to equilibrium</p>
+</header>
+
+<main>
+
+<!-- ================= INTRO ================= -->
+<section class="class-card">
+  <h2>What is Stability of Equilibrium?</h2>
+  <p>
+    Stability of equilibrium refers to the tendency of a market to return
+    to its equilibrium position after a disturbance.
+  </p>
+
+  <p>
+    If small changes in price create forces that bring the market back
+    to equilibrium, the equilibrium is said to be <strong>stable</strong>.
+  </p>
+</section>
+
+<!-- ================= STABLE EQUILIBRIUM ================= -->
+<section class="class-card">
+  <h2>Stable Equilibrium</h2>
+  <p>
+    An equilibrium is stable if any deviation from equilibrium price
+    results in forces that push the price back toward equilibrium.
+  </p>
+
+  <p class="example">
+    📌 <strong>Key idea:</strong> Market self-corrects
+  </p>
+
+  <ul>
+    <li>Price below equilibrium → Excess demand → Price rises</li>
+    <li>Price above equilibrium → Excess supply → Price falls</li>
+  </ul>
+</section>
+
+<!-- ================= UNSTABLE EQUILIBRIUM ================= -->
+<section class="class-card">
+  <h2>Unstable Equilibrium</h2>
+  <p>
+    An equilibrium is unstable if a small deviation from equilibrium
+    causes the market to move further away from equilibrium.
+  </p>
+
+  <p class="example">
+    ⚠️ <strong>Key idea:</strong> Market moves away instead of correcting
+  </p>
+
+  <p>
+    Unstable equilibrium is rare in real markets but important
+    theoretically.
+  </p>
+</section>
+
+<!-- ================= MARSHALLIAN APPROACH ================= -->
+<section class="class-card">
+  <h2>Marshallian Price Adjustment</h2>
+  <p>
+    According to Alfred Marshall, price adjusts due to excess demand
+    or excess supply.
+  </p>
+
+  <p class="example">
+    📈 Excess demand → Buyers compete → Price rises  
+    <br />
+    📉 Excess supply → Sellers compete → Price falls
+  </p>
+
+  <p>
+    This approach focuses on <strong>price adjustment</strong>
+    and is commonly used in microeconomics.
+  </p>
+</section>
+
+<!-- ================= WALRASIAN APPROACH ================= -->
+<section class="class-card">
+  <h2>Walrasian Quantity Adjustment</h2>
+  <p>
+    According to Léon Walras, quantity adjusts instead of price.
+  </p>
+
+  <p>
+    If quantity demanded exceeds quantity supplied, output increases;
+    if supply exceeds demand, output decreases.
+  </p>
+
+  <p class="example">
+    📌 Used mainly in theoretical analysis
+  </p>
+</section>
+
+<!-- ================= INTERACTIVE STABILITY ================= -->
+<section class="class-card">
+  <h2>Stability of Equilibrium (Interactive)</h2>
+
+  <p>
+    Move the price slider to see whether the market returns to equilibrium
+    (stable) or moves away (unstable).
+  </p>
+
+  <label>
+    Price (P):
+    <strong><span id="priceValue">40</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="0" max="100" value="40" />
+
+  <div class="class-card" style="margin-top:1.5rem;">
+    <p>Quantity Demanded (Q<sub>d</sub>): <strong><span id="qdValue">60</span></strong></p>
+    <p>Quantity Supplied (Q<sub>s</sub>): <strong><span id="qsValue">60</span></strong></p>
+    <p>Market Force: <strong><span id="forceValue">Equilibrium</span></strong></p>
+  </div>
+
+  <canvas id="stabilityChart" width="650" height="420"></canvas>
+</section>
+
+<!-- ================= NUMERICAL ================= -->
+<section class="class-card">
+  <h2>Numerical Illustration</h2>
+
+  <p>
+    Let the demand and supply functions be:
+  </p>
+
+  <ul>
+    <li>Q<sub>d</sub> = 100 − P</li>
+    <li>Q<sub>s</sub> = 20 + P</li>
+  </ul>
+
+  <p class="example">
+    📐 Equilibrium when 100 − P = 20 + P → P = 40
+  </p>
+
+  <p>
+    If price falls to P = 30:
+  </p>
+
+  <ul>
+    <li>Q<sub>d</sub> = 70</li>
+    <li>Q<sub>s</sub> = 50</li>
+    <li>Excess demand = 20 → Price rises</li>
+  </ul>
+</section>
+
+<!-- ================= CLASS 2 PDF ================= -->
+<section class="class-card">
+  <h2>Class 2 Lecture Notes (PDF)</h2>
+  <iframe
+    src="../pdfs/class2/class2.pdf"
+    width="100%"
+    height="500px"
+    style="border:none; margin-top:1rem;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 2</p>
+</footer>
+
+<script>
+  const priceSlider = document.getElementById("priceSlider");
+  const priceValue = document.getElementById("priceValue");
+  const qdValue = document.getElementById("qdValue");
+  const qsValue = document.getElementById("qsValue");
+  const forceValue = document.getElementById("forceValue");
+
+  function Qd(P) { return Math.max(100 - P, 0); }
+  function Qs(P) { return Math.max(20 + P, 0); }
+
+  function curveData(func) {
+    const points = [];
+    for (let P = 0; P <= 100; P += 5) {
+      points.push({ x: func(P), y: P });
+    }
+    return points;
+  }
+
+  const ctx = document.getElementById("stabilityChart").getContext("2d");
+
+  const chart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Demand",
+          data: curveData(Qd),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Supply",
+          data: curveData(Qs),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Current Price",
+          data: [{ x: 60, y: 40 }],
+          pointRadius: 7
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 140, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updateStability() {
+    const P = Number(priceSlider.value);
+    const qd = Qd(P);
+    const qs = Qs(P);
+
+    priceValue.textContent = P;
+    qdValue.textContent = qd;
+    qsValue.textContent = qs;
+
+    let force = "Equilibrium";
+    if (qd > qs) force = "Excess Demand → Price Rises";
+    if (qs > qd) force = "Excess Supply → Price Falls";
+
+    forceValue.textContent = force;
+
+    chart.data.datasets[2].data = [{ x: Math.min(qd, qs), y: P }];
+    chart.update();
+  }
+
+  priceSlider.addEventListener("input", updateStability);
+  updateStability();
+</script>
+
+</body>
+</html>

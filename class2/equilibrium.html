@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Market Equilibrium | Class 2</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Market Equilibrium</h1>
+  <p>Interaction of demand and supply</p>
+</header>
+
+<main>
+
+<!-- ================= INTRO ================= -->
+<section class="class-card">
+  <h2>What is Market Equilibrium?</h2>
+  <p>
+    Market equilibrium is a situation where the quantity demanded of a good
+    is equal to the quantity supplied at a particular price.
+  </p>
+
+  <p>
+    This price is called the <strong>equilibrium price</strong>, and the
+    corresponding quantity is the <strong>equilibrium quantity</strong>.
+  </p>
+</section>
+
+<!-- ================= EQUATIONS ================= -->
+<section class="class-card">
+  <h2>Equilibrium Using Equations</h2>
+
+  <p>Let the demand and supply functions be:</p>
+
+  <ul>
+    <li>Demand: <strong>Q<sub>d</sub> = 100 − P</strong></li>
+    <li>Supply: <strong>Q<sub>s</sub> = 20 + P</strong></li>
+  </ul>
+
+  <p>
+    At equilibrium:
+  </p>
+
+  <p class="example">
+    📐 Q<sub>d</sub> = Q<sub>s</sub>  
+    <br />
+    100 − P = 20 + P  
+    <br />
+    2P = 80  
+    <br />
+    <strong>P = 40</strong>
+  </p>
+
+  <p>
+    Substituting P = 40:
+  </p>
+
+  <p class="example">
+    Q = 100 − 40 = <strong>60 units</strong>
+  </p>
+</section>
+
+<!-- ================= INTERACTIVE EQUILIBRIUM ================= -->
+<section class="class-card">
+  <h2>Market Equilibrium (Interactive)</h2>
+
+  <p>
+    Use the sliders to observe how demand and supply interact to
+    determine equilibrium.
+  </p>
+
+  <label>
+    Price (P):
+    <strong><span id="priceValue">40</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="0" max="100" value="40" />
+
+  <div class="class-card" style="margin-top:1.5rem;">
+    <p>Quantity Demanded (Q<sub>d</sub>): <strong><span id="qdValue">60</span></strong></p>
+    <p>Quantity Supplied (Q<sub>s</sub>): <strong><span id="qsValue">60</span></strong></p>
+    <p>Status: <strong><span id="marketStatus">Equilibrium</span></strong></p>
+  </div>
+
+  <canvas id="equilibriumChart" width="650" height="420"></canvas>
+</section>
+
+<!-- ================= SURPLUS & SHORTAGE ================= -->
+<section class="class-card">
+  <h2>Surplus and Shortage</h2>
+
+  <h3>Excess Demand (Shortage)</h3>
+  <p>
+    When price is below equilibrium, quantity demanded exceeds
+    quantity supplied.
+  </p>
+
+  <p class="example">
+    📉 Shortage → Price tends to rise
+  </p>
+
+  <h3>Excess Supply (Surplus)</h3>
+  <p>
+    When price is above equilibrium, quantity supplied exceeds
+    quantity demanded.
+  </p>
+
+  <p class="example">
+    📈 Surplus → Price tends to fall
+  </p>
+</section>
+
+<!-- ================= ADJUSTMENT MECHANISM ================= -->
+<section class="class-card">
+  <h2>Adjustment Mechanism</h2>
+  <p>
+    Market forces of demand and supply automatically adjust prices
+    toward equilibrium.
+  </p>
+
+  <ul>
+    <li>Shortage → Competition among buyers → Price rises</li>
+    <li>Surplus → Competition among sellers → Price falls</li>
+  </ul>
+
+  <p class="example">
+    📌 This is why equilibrium is often called a <em>stable situation</em>.
+  </p>
+</section>
+
+<!-- ================= BUSINESS RELEVANCE ================= -->
+<section class="class-card">
+  <h2>Why Market Equilibrium Matters for Business</h2>
+  <ul>
+    <li>Helps firms set optimal prices</li>
+    <li>Prevents excess inventory</li>
+    <li>Ensures efficient allocation of resources</li>
+    <li>Used in market forecasting</li>
+  </ul>
+</section>
+
+<!-- ================= CLASS 2 PDF ================= -->
+<section class="class-card">
+  <h2>Class 2 Lecture Notes (PDF)</h2>
+  <p>
+    The complete lecture notes for Class 2 are provided below for
+    reference and revision.
+  </p>
+
+  <iframe
+    src="../pdfs/class2/class2.pdf"
+    width="100%"
+    height="500px"
+    style="border:none; margin-top:1rem;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 2</p>
+</footer>
+
+<script>
+  const priceSlider = document.getElementById("priceSlider");
+  const priceValue = document.getElementById("priceValue");
+  const qdValue = document.getElementById("qdValue");
+  const qsValue = document.getElementById("qsValue");
+  const marketStatus = document.getElementById("marketStatus");
+
+  function Qd(P) { return Math.max(100 - P, 0); }
+  function Qs(P) { return Math.max(20 + P, 0); }
+
+  function curveData(func) {
+    const points = [];
+    for (let P = 0; P <= 100; P += 5) {
+      points.push({ x: func(P), y: P });
+    }
+    return points;
+  }
+
+  const ctx = document.getElementById("equilibriumChart").getContext("2d");
+
+  const chart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Demand",
+          data: curveData(Qd),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Supply",
+          data: curveData(Qs),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Current Price",
+          data: [{ x: 60, y: 40 }],
+          pointRadius: 7
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 140, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updateMarket() {
+    const P = Number(priceSlider.value);
+    const qd = Qd(P);
+    const qs = Qs(P);
+
+    priceValue.textContent = P;
+    qdValue.textContent = qd;
+    qsValue.textContent = qs;
+
+    let status = "Equilibrium";
+    if (qd > qs) status = "Shortage (Excess Demand)";
+    if (qs > qd) status = "Surplus (Excess Supply)";
+    marketStatus.textContent = status;
+
+    chart.data.datasets[2].data = [{ x: Math.min(qd, qs), y: P }];
+    chart.update();
+  }
+
+  priceSlider.addEventListener("input", updateMarket);
+  updateMarket();
+</script>
+
+</body>
+</html>

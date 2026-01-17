@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Supply | Class 2</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Supply</h1>
+  <p>Understanding producer behaviour</p>
+</header>
+
+<main>
+
+<!-- ================= MEANING OF SUPPLY ================= -->
+<section class="class-card">
+  <h2>Meaning of Supply</h2>
+  <p>
+    Supply refers to the quantity of a good or service that producers
+    are willing and able to offer for sale at various prices during a given period of time.
+  </p>
+
+  <p>
+    Unlike demand, supply reflects the behaviour of <strong>firms and producers</strong>.
+  </p>
+
+  <p class="example">
+    📌 <strong>Key idea:</strong> Willingness + ability to sell = supply
+  </p>
+</section>
+
+<!-- ================= LAW OF SUPPLY ================= -->
+<section class="class-card">
+  <h2>Law of Supply</h2>
+  <p>
+    The law of supply states that, <strong>ceteris paribus</strong>,
+    the quantity supplied of a good increases when its price increases
+    and decreases when its price decreases.
+  </p>
+
+  <ul>
+    <li>Price ↑ → Quantity supplied ↑</li>
+    <li>Price ↓ → Quantity supplied ↓</li>
+  </ul>
+
+  <p class="example">
+    📌 <strong>Reason:</strong> Higher prices make production more profitable.
+  </p>
+</section>
+
+<!-- ================= SUPPLY SCHEDULE & CURVE ================= -->
+<section class="class-card">
+  <h2>Supply Schedule and Supply Curve</h2>
+  <p>
+    A <strong>supply schedule</strong> shows quantities supplied at different prices.
+    Plotting these combinations gives the <strong>supply curve</strong>.
+  </p>
+
+  <p>
+    The supply curve slopes <strong>upward from left to right</strong>,
+    showing a direct relationship between price and quantity supplied.
+  </p>
+</section>
+
+<!-- ================= INTERACTIVE SUPPLY: MOVEMENT VS SHIFT ================= -->
+<section class="class-card">
+  <h2>Supply Curve: Movement vs Shift (Interactive)</h2>
+
+  <p>
+    Changing <strong>price</strong> causes a <em>movement along</em> the supply curve.
+    Changing <strong>costs or technology</strong> causes a <em>shift</em> of the supply curve.
+  </p>
+
+  <label>
+    Price (P):
+    <strong><span id="priceValue">40</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="0" max="100" value="40" />
+
+  <label style="display:block; margin-top:1rem;">
+    Supply Shift (Technology / Costs):
+    <strong><span id="shiftValue">0</span></strong>
+  </label>
+  <input type="range" id="shiftSlider" min="-40" max="40" value="0" />
+
+  <div class="class-card" style="margin-top:1.5rem;">
+    <p><strong>Supply Function:</strong> Q = (<span id="cValue">20</span>) + P</p>
+    <p>Price (P) = <span id="priceDisplay">40</span></p>
+    <p>Quantity Supplied (Q) = <span id="quantityDisplay">60</span></p>
+  </div>
+
+  <canvas id="supplyChart" width="650" height="400"></canvas>
+</section>
+
+<!-- ================= DETERMINANTS OF SUPPLY ================= -->
+<section class="class-card">
+  <h2>Determinants of Supply</h2>
+  <ul>
+    <li>Cost of production</li>
+    <li>Technology</li>
+    <li>Prices of inputs</li>
+    <li>Number of sellers</li>
+    <li>Government policy (taxes, subsidies)</li>
+    <li>Expectations of future prices</li>
+  </ul>
+
+  <p class="example">
+    📌 <strong>Example:</strong> Technological improvement shifts supply to the right.
+  </p>
+</section>
+
+<!-- ================= NUMERICAL EXAMPLE ================= -->
+<section class="class-card">
+  <h2>Numerical Example</h2>
+
+  <p>
+    Suppose the supply function of a firm is:
+  </p>
+
+  <p class="example">
+    📐 <strong>Q = 20 + P</strong>
+  </p>
+
+  <p>
+    If the price is ₹30:
+  </p>
+
+  <ul>
+    <li>Q = 20 + 30 = <strong>50 units</strong></li>
+  </ul>
+
+  <p>
+    If price rises to ₹50:
+  </p>
+
+  <ul>
+    <li>Q = 20 + 50 = <strong>70 units</strong></li>
+  </ul>
+</section>
+
+<!-- ================= BUSINESS RELEVANCE ================= -->
+<section class="class-card">
+  <h2>Why Supply Matters for Business</h2>
+  <ul>
+    <li>Helps firms decide output levels</li>
+    <li>Guides cost management</li>
+    <li>Explains producer response to price changes</li>
+    <li>Essential for profit maximisation</li>
+  </ul>
+</section>
+
+<!-- ================= CLASS 2 PDF ================= -->
+<section class="class-card">
+  <h2>Class 2 Lecture Notes (PDF)</h2>
+  <p>
+    The complete lecture notes for Class 2 are provided below for
+    reference and revision.
+  </p>
+
+  <iframe
+    src="../pdfs/class2/class2.pdf"
+    width="100%"
+    height="500px"
+    style="border:none; margin-top:1rem;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 2</p>
+</footer>
+
+<script>
+  const priceSlider = document.getElementById("priceSlider");
+  const shiftSlider = document.getElementById("shiftSlider");
+
+  const priceValue = document.getElementById("priceValue");
+  const priceDisplay = document.getElementById("priceDisplay");
+  const quantityDisplay = document.getElementById("quantityDisplay");
+  const shiftValue = document.getElementById("shiftValue");
+  const cValue = document.getElementById("cValue");
+
+  const cBase = 20;
+
+  function supplyCurveData(shift) {
+    const points = [];
+    for (let P = 0; P <= 100; P += 5) {
+      points.push({ x: (cBase + shift) + P, y: P });
+    }
+    return points;
+  }
+
+  const ctx = document.getElementById("supplyChart").getContext("2d");
+
+  const supplyChart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Supply Curve",
+          data: supplyCurveData(0),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Current Point",
+          data: [{ x: 60, y: 40 }],
+          pointRadius: 7
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 160, title: { display: true, text: "Quantity Supplied" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updateSupply() {
+    const P = Number(priceSlider.value);
+    const shift = Number(shiftSlider.value);
+    const cCurrent = cBase + shift;
+    const Q = cCurrent + P;
+
+    priceValue.textContent = P;
+    priceDisplay.textContent = P;
+    quantityDisplay.textContent = Q;
+    shiftValue.textContent = shift;
+    cValue.textContent = cCurrent;
+
+    supplyChart.data.datasets[0].data = supplyCurveData(shift);
+    supplyChart.data.datasets[1].data = [{ x: Q, y: P }];
+    supplyChart.update();
+  }
+
+  priceSlider.addEventListener("input", updateSupply);
+  shiftSlider.addEventListener("input", updateSupply);
+  updateSupply();
+</script>
+
+</body>
+</html>

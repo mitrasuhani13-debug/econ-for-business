@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Government Intervention | Class 2</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Government Intervention</h1>
+  <p>How government policies affect markets</p>
+</header>
+
+<main>
+
+<!-- ================= INTRO ================= -->
+<section class="class-card">
+  <h2>What is Government Intervention?</h2>
+  <p>
+    Government intervention refers to actions taken by the government
+    to influence market outcomes in order to achieve social or economic objectives.
+  </p>
+
+  <p class="example">
+    📌 Common objectives include price stability, equity, consumer protection,
+    and revenue generation.
+  </p>
+</section>
+
+<!-- ================= PRICE CEILING ================= -->
+<section class="class-card">
+  <h2>Price Ceiling</h2>
+
+  <p>
+    A price ceiling is a legal maximum price that sellers can charge.
+  </p>
+
+  <p>
+    When set below equilibrium price, it leads to <strong>shortage</strong>.
+  </p>
+
+  <p class="example">
+    📌 <strong>Examples:</strong> Rent control, maximum price on essential drugs
+  </p>
+
+  <ul>
+    <li>Quantity demanded &gt; Quantity supplied</li>
+    <li>Black markets may emerge</li>
+  </ul>
+</section>
+
+<!-- ================= PRICE FLOOR ================= -->
+<section class="class-card">
+  <h2>Price Floor</h2>
+
+  <p>
+    A price floor is a legal minimum price that must be paid.
+  </p>
+
+  <p>
+    When set above equilibrium price, it leads to <strong>surplus</strong>.
+  </p>
+
+  <p class="example">
+    📌 <strong>Examples:</strong> Minimum wage, agricultural support prices
+  </p>
+
+  <ul>
+    <li>Quantity supplied &gt; Quantity demanded</li>
+    <li>Government may purchase excess supply</li>
+  </ul>
+</section>
+
+<!-- ================= INTERACTIVE PRICE CONTROL ================= -->
+<section class="class-card">
+  <h2>Price Controls (Interactive)</h2>
+
+  <label>
+    Controlled Price:
+    <strong><span id="controlPrice">30</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="10" max="80" value="30" />
+
+  <div class="class-card" style="margin-top:1rem;">
+    <p>Quantity Demanded: <strong><span id="qdValue">70</span></strong></p>
+    <p>Quantity Supplied: <strong><span id="qsValue">50</span></strong></p>
+    <p>Market Outcome: <strong><span id="outcome">Shortage</span></strong></p>
+  </div>
+
+  <canvas id="priceControlChart" width="650" height="420"></canvas>
+</section>
+
+<!-- ================= TAXATION ================= -->
+<section class="class-card">
+  <h2>Taxes</h2>
+
+  <p>
+    Taxes increase the cost of production or consumption and shift
+    supply or demand curves.
+  </p>
+
+  <p class="example">
+    📌 Taxes create a wedge between price paid by buyers and price received by sellers.
+  </p>
+</section>
+
+<!-- ================= TAX INTERACTIVE ================= -->
+<section class="class-card">
+  <h2>Tax Incidence (Interactive)</h2>
+
+  <label>
+    Tax per unit:
+    <strong>₹<span id="taxValue">20</span></strong>
+  </label>
+  <input type="range" id="taxSlider" min="0" max="50" value="20" />
+
+  <div class="class-card" style="margin-top:1rem;">
+    <p>Price Paid by Buyers: ₹<strong><span id="pbValue">60</span></strong></p>
+    <p>Price Received by Sellers: ₹<strong><span id="psValue">40</span></strong></p>
+    <p>Government Revenue: ₹<strong><span id="grValue">1200</span></strong></p>
+  </div>
+
+  <canvas id="taxChart" width="650" height="420"></canvas>
+</section>
+
+<!-- ================= DEADWEIGHT LOSS ================= -->
+<section class="class-card">
+  <h2>Deadweight Loss</h2>
+
+  <p>
+    Deadweight loss refers to the loss of total surplus due to
+    government intervention such as taxes or price controls.
+  </p>
+
+  <p class="example">
+    📌 Occurs because some mutually beneficial trades no longer take place.
+  </p>
+</section>
+
+<!-- ================= NUMERICAL ================= -->
+<section class="class-card">
+  <h2>Numerical Example</h2>
+
+  <p>
+    Demand: Q = 100 − P <br />
+    Supply: Q = 20 + P
+  </p>
+
+  <p class="example">
+    Equilibrium: 100 − P = 20 + P → P = 40, Q = 60
+  </p>
+
+  <p>
+    If a tax of ₹20 is imposed:
+  </p>
+
+  <ul>
+    <li>Price paid by buyers = ₹50</li>
+    <li>Price received by sellers = ₹30</li>
+    <li>Tax revenue = 20 × 50 = ₹1000</li>
+  </ul>
+</section>
+
+<!-- ================= BUSINESS ================= -->
+<section class="class-card">
+  <h2>Why Government Intervention Matters for Business</h2>
+  <ul>
+    <li>Affects pricing and output decisions</li>
+    <li>Influences cost structures</li>
+    <li>Creates compliance requirements</li>
+    <li>Impacts profitability</li>
+  </ul>
+</section>
+
+<!-- ================= PDF ================= -->
+<section class="class-card">
+  <h2>Class 2 Lecture Notes (PDF)</h2>
+  <iframe
+    src="../pdfs/class2/class2.pdf"
+    width="100%"
+    height="500px"
+    style="border:none;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 2</p>
+</footer>
+
+<script>
+  /* ===== PRICE CONTROL ===== */
+  const priceSlider = document.getElementById("priceSlider");
+  const controlPrice = document.getElementById("controlPrice");
+  const qdValue = document.getElementById("qdValue");
+  const qsValue = document.getElementById("qsValue");
+  const outcome = document.getElementById("outcome");
+
+  function Qd(P) { return Math.max(100 - P, 0); }
+  function Qs(P) { return Math.max(20 + P, 0); }
+
+  function curveData(fn) {
+    const pts = [];
+    for (let P = 0; P <= 100; P += 5) pts.push({ x: fn(P), y: P });
+    return pts;
+  }
+
+  const pcCtx = document.getElementById("priceControlChart").getContext("2d");
+
+  const pcChart = new Chart(pcCtx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        { label: "Demand", data: curveData(Qd), showLine: true },
+        { label: "Supply", data: curveData(Qs), showLine: true },
+        { label: "Controlled Price", data: [{ x: 0, y: 30 }, { x: 120, y: 30 }], showLine: true }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 140, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updatePriceControl() {
+    const P = Number(priceSlider.value);
+    const qd = Qd(P);
+    const qs = Qs(P);
+
+    controlPrice.textContent = P;
+    qdValue.textContent = qd;
+    qsValue.textContent = qs;
+    outcome.textContent = qd > qs ? "Shortage" : qd < qs ? "Surplus" : "Equilibrium";
+
+    pcChart.data.datasets[2].data = [{ x: 0, y: P }, { x: 140, y: P }];
+    pcChart.update();
+  }
+
+  priceSlider.addEventListener("input", updatePriceControl);
+  updatePriceControl();
+
+  /* ===== TAX ===== */
+  const taxSlider = document.getElementById("taxSlider");
+  const taxValue = document.getElementById("taxValue");
+  const pbValue = document.getElementById("pbValue");
+  const psValue = document.getElementById("psValue");
+  const grValue = document.getElementById("grValue");
+
+  const taxCtx = document.getElementById("taxChart").getContext("2d");
+
+  function supplyTax(P, t) {
+    return Math.max(20 + (P - t), 0);
+  }
+
+  const taxChart = new Chart(taxCtx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        { label: "Demand", data: curveData(Qd), showLine: true },
+        { label: "Supply (After Tax)", data: curveData(P => supplyTax(P, 20)), showLine: true }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 140, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updateTax() {
+    const t = Number(taxSlider.value);
+    taxValue.textContent = t;
+
+    const pb = 40 + t / 2;
+    const ps = pb - t;
+    const q = Math.max(60 - t / 2, 0);
+
+    pbValue.textContent = pb;
+    psValue.textContent = ps;
+    grValue.textContent = Math.round(t * q);
+
+    taxChart.data.datasets[1].data = curveData(P => supplyTax(P, t));
+    taxChart.update();
+  }
+
+  taxSlider.addEventListener("input", updateTax);
+  updateTax();
+</script>
+
+</body>
+</html>

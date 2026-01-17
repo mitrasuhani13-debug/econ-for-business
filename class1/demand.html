@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Demand | Class 1</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Demand</h1>
+  <p>Understanding consumer behaviour</p>
+</header>
+
+<main>
+
+<!-- ================= MEANING OF DEMAND ================= -->
+<section class="class-card">
+  <h2>Meaning of Demand</h2>
+  <p>
+    Demand refers to the quantity of a good or service that consumers are
+    willing and able to purchase at various prices during a given period of time.
+  </p>
+
+  <p>
+    Both <strong>willingness</strong> and <strong>ability to pay</strong>
+    must be present for demand to exist.
+  </p>
+
+  <p class="example">
+    📌 <strong>Example:</strong> A student may want a luxury phone, but without
+    sufficient income this desire does not translate into demand.
+  </p>
+</section>
+
+<!-- ================= LAW OF DEMAND ================= -->
+<section class="class-card">
+  <h2>Law of Demand</h2>
+  <p>
+    The law of demand states that, <strong>ceteris paribus</strong>
+    (other things remaining constant), the quantity demanded of a good
+    decreases when its price increases, and increases when its price decreases.
+  </p>
+
+  <ul>
+    <li>Price ↑ → Quantity demanded ↓</li>
+    <li>Price ↓ → Quantity demanded ↑</li>
+  </ul>
+</section>
+
+<!-- ================= DEMAND SCHEDULE & CURVE ================= -->
+<section class="class-card">
+  <h2>Demand Schedule and Demand Curve</h2>
+  <p>
+    A <strong>demand schedule</strong> shows quantities demanded at different prices.
+    Plotting these price–quantity combinations gives the <strong>demand curve</strong>.
+  </p>
+
+  <p>
+    The demand curve slopes downward from left to right, showing the inverse
+    relationship between price and quantity demanded.
+  </p>
+</section>
+
+<!-- ================= INTERACTIVE: MOVEMENT VS SHIFT ================= -->
+<section class="class-card">
+  <h2>Demand Curve: Movement vs Shift (Interactive)</h2>
+
+  <p>
+    Changing <strong>price</strong> causes a <em>movement along</em> the demand curve.
+    Changing <strong>income or preferences</strong> causes a <em>shift</em> of the curve.
+  </p>
+
+  <label>
+    Price (P):
+    <strong><span id="priceValue">50</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="0" max="100" value="50" />
+
+  <label style="display:block; margin-top:1rem;">
+    Demand Shift (Income / Preferences):
+    <strong><span id="shiftValue">0</span></strong>
+  </label>
+  <input type="range" id="shiftSlider" min="-40" max="40" value="0" />
+
+  <div class="class-card" style="margin-top:1.5rem;">
+    <p><strong>Demand Function:</strong> Q = (<span id="aValue">100</span>) − P</p>
+    <p>Price (P) = <span id="priceDisplay">50</span></p>
+    <p>Quantity Demanded (Q) = <span id="quantityDisplay">50</span></p>
+  </div>
+
+  <canvas id="demandChart" width="650" height="400"></canvas>
+</section>
+
+<!-- ================= MARKET DEMAND ================= -->
+<section class="class-card">
+  <h2>Market Demand (Horizontal Summation)</h2>
+
+  <p>
+    Market demand is obtained by <strong>horizontally summing</strong>
+    individual demand curves at each price.
+  </p>
+
+  <p class="example">
+    📌 <strong>Example:</strong> Market demand = Demand of Consumer A + Demand of Consumer B
+  </p>
+
+  <canvas id="marketDemandChart" width="650" height="400"></canvas>
+</section>
+
+<!-- ================= BUSINESS RELEVANCE ================= -->
+<section class="class-card">
+  <h2>Why Demand Matters for Business</h2>
+  <ul>
+    <li>Helps firms forecast sales</li>
+    <li>Guides pricing decisions</li>
+    <li>Influences marketing strategy</li>
+    <li>Reduces business uncertainty</li>
+  </ul>
+</section>
+
+<!-- ================= CLASS 1 PDF ================= -->
+<section class="class-card">
+  <h2>Class 1 Lecture Notes (PDF)</h2>
+  <p>
+    The complete lecture notes for Class 1 are provided below for reference
+    and revision.
+  </p>
+
+  <iframe
+    src="../pdfs/class1/class1.pdf"
+    width="100%"
+    height="500px"
+    style="border:none; margin-top:1rem;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 1</p>
+</footer>
+
+<script>
+  /* ===== INDIVIDUAL DEMAND ===== */
+  const priceSlider = document.getElementById("priceSlider");
+  const shiftSlider = document.getElementById("shiftSlider");
+
+  const priceValue = document.getElementById("priceValue");
+  const priceDisplay = document.getElementById("priceDisplay");
+  const quantityDisplay = document.getElementById("quantityDisplay");
+  const shiftValue = document.getElementById("shiftValue");
+  const aValue = document.getElementById("aValue");
+
+  const aBase = 100;
+  const b = 1;
+
+  function demandCurveData(shift) {
+    const points = [];
+    for (let P = 0; P <= 100; P += 5) {
+      points.push({ x: (aBase + shift) - b * P, y: P });
+    }
+    return points;
+  }
+
+  const demandCtx = document.getElementById("demandChart").getContext("2d");
+
+  const demandChart = new Chart(demandCtx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Demand Curve",
+          data: demandCurveData(0),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Current Point",
+          data: [{ x: 50, y: 50 }],
+          pointRadius: 7
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 160, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updateDemand() {
+    const P = Number(priceSlider.value);
+    const shift = Number(shiftSlider.value);
+    const aCurrent = aBase + shift;
+    const Q = aCurrent - b * P;
+
+    priceValue.textContent = P;
+    priceDisplay.textContent = P;
+    quantityDisplay.textContent = Q;
+    shiftValue.textContent = shift;
+    aValue.textContent = aCurrent;
+
+    demandChart.data.datasets[0].data = demandCurveData(shift);
+    demandChart.data.datasets[1].data = [{ x: Q, y: P }];
+    demandChart.update();
+  }
+
+  priceSlider.addEventListener("input", updateDemand);
+  shiftSlider.addEventListener("input", updateDemand);
+  updateDemand();
+
+  /* ===== MARKET DEMAND ===== */
+  const marketCtx = document.getElementById("marketDemandChart").getContext("2d");
+
+  function consumerA(P) { return Math.max(80 - P, 0); }
+  function consumerB(P) { return Math.max(60 - P, 0); }
+
+  function marketDemandData() {
+    const points = [];
+    for (let P = 0; P <= 100; P += 5) {
+      points.push({
+        x: consumerA(P) + consumerB(P),
+        y: P
+      });
+    }
+    return points;
+  }
+
+  new Chart(marketCtx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Market Demand",
+          data: marketDemandData(),
+          showLine: true,
+          borderWidth: 3
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 200, title: { display: true, text: "Quantity (Market)" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

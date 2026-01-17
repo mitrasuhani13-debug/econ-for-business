@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elasticity | Class 2</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Elasticity</h1>
+  <p>Measuring responsiveness in economics</p>
+</header>
+
+<main>
+
+<!-- ================= INTRO ================= -->
+<section class="class-card">
+  <h2>What is Elasticity?</h2>
+  <p>
+    Elasticity measures the degree of responsiveness of one economic variable
+    to a change in another variable.
+  </p>
+
+  <p>
+    In microeconomics, elasticity is mainly used to measure how quantity demanded
+    or supplied responds to changes in price.
+  </p>
+
+  <p class="example">
+    📌 Elasticity answers: <em>How sensitive is quantity to price?</em>
+  </p>
+</section>
+
+<!-- ================= PED ================= -->
+<section class="class-card">
+  <h2>Price Elasticity of Demand (PED)</h2>
+
+  <p>
+    Price elasticity of demand measures the responsiveness of quantity demanded
+    to changes in price.
+  </p>
+
+  <p class="example">
+    📐 <strong>PED = (% Change in Quantity Demanded) ÷ (% Change in Price)</strong>
+  </p>
+
+  <p>
+    The value of PED helps firms and governments understand consumer behaviour.
+  </p>
+</section>
+
+<!-- ================= MIDPOINT ================= -->
+<section class="class-card">
+  <h2>Midpoint Method</h2>
+
+  <p>
+    To avoid different elasticity values depending on direction of price change,
+    economists use the midpoint method.
+  </p>
+
+  <p class="example">
+    📐 PED = (ΔQ / Average Q) ÷ (ΔP / Average P)
+  </p>
+</section>
+
+<!-- ================= TYPES ================= -->
+<section class="class-card">
+  <h2>Types of Price Elasticity of Demand</h2>
+  <ul>
+    <li>Perfectly Elastic (PED = ∞)</li>
+    <li>Relatively Elastic (PED &gt; 1)</li>
+    <li>Unitary Elastic (PED = 1)</li>
+    <li>Relatively Inelastic (PED &lt; 1)</li>
+    <li>Perfectly Inelastic (PED = 0)</li>
+  </ul>
+</section>
+
+<!-- ================= ELASTICITY TYPES GRAPH ================= -->
+<section class="class-card">
+  <h2>Graphs of Different Types of Elasticity</h2>
+
+  <p>
+    The following graph compares all types of price elasticity of demand.
+    The flatter the curve, the more elastic the demand.
+  </p>
+
+  <canvas id="elasticityTypesChart" width="700" height="450"></canvas>
+</section>
+
+<!-- ================= INTERACTIVE ================= -->
+<section class="class-card">
+  <h2>Elasticity & Total Revenue (Interactive)</h2>
+
+  <label>
+    Price (P):
+    <strong><span id="priceValue">50</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="10" max="100" value="50" />
+
+  <div class="class-card" style="margin-top:1.5rem;">
+    <p>Quantity Demanded (Q): <strong><span id="qValue">50</span></strong></p>
+    <p>Total Revenue (TR): <strong>₹<span id="trValue">2500</span></strong></p>
+    <p>Elasticity Zone: <strong><span id="zoneValue">Unitary Elastic</span></strong></p>
+  </div>
+
+  <canvas id="elasticityChart" width="650" height="420"></canvas>
+</section>
+
+<!-- ================= TR ================= -->
+<section class="class-card">
+  <h2>Total Revenue and Elasticity</h2>
+
+  <ul>
+    <li>Elastic demand → Price ↓ → TR ↑</li>
+    <li>Inelastic demand → Price ↑ → TR ↑</li>
+    <li>Unitary elastic → TR remains constant</li>
+  </ul>
+</section>
+
+<!-- ================= NUMERICAL ================= -->
+<section class="class-card">
+  <h2>Numerical Example</h2>
+
+  <p>
+    Price falls from ₹50 to ₹40 and quantity increases from 50 to 70 units.
+  </p>
+
+  <p class="example">
+    PED = (20 / 60) ÷ (10 / 45) = <strong>1.5 (Elastic)</strong>
+  </p>
+</section>
+
+<!-- ================= BUSINESS ================= -->
+<section class="class-card">
+  <h2>Why Elasticity Matters for Business</h2>
+  <ul>
+    <li>Pricing strategy</li>
+    <li>Tax burden analysis</li>
+    <li>Revenue maximisation</li>
+    <li>Market forecasting</li>
+  </ul>
+</section>
+
+<!-- ================= PDF ================= -->
+<section class="class-card">
+  <h2>Class 2 Lecture Notes (PDF)</h2>
+  <iframe
+    src="../pdfs/class2/class2.pdf"
+    width="100%"
+    height="500px"
+    style="border:none;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 2</p>
+</footer>
+
+<script>
+  /* ===== INTERACTIVE ELASTICITY ===== */
+  const priceSlider = document.getElementById("priceSlider");
+  const priceValue = document.getElementById("priceValue");
+  const qValue = document.getElementById("qValue");
+  const trValue = document.getElementById("trValue");
+  const zoneValue = document.getElementById("zoneValue");
+
+  function Q(P) { return Math.max(120 - 1.4 * P, 0); }
+
+  function demandData() {
+    const pts = [];
+    for (let P = 10; P <= 100; P += 5) {
+      pts.push({ x: Q(P), y: P });
+    }
+    return pts;
+  }
+
+  const ctx = document.getElementById("elasticityChart").getContext("2d");
+
+  const chart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Demand Curve",
+          data: demandData(),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Current Point",
+          data: [{ x: 50, y: 50 }],
+          pointRadius: 7
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 140, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 110, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updateElasticity() {
+    const P = Number(priceSlider.value);
+    const q = Q(P);
+    const tr = P * q;
+
+    priceValue.textContent = P;
+    qValue.textContent = Math.round(q);
+    trValue.textContent = Math.round(tr);
+
+    let zone = "Unitary Elastic";
+    if (P < 50) zone = "Elastic Demand";
+    if (P > 50) zone = "Inelastic Demand";
+
+    zoneValue.textContent = zone;
+
+    chart.data.datasets[1].data = [{ x: q, y: P }];
+    chart.update();
+  }
+
+  priceSlider.addEventListener("input", updateElasticity);
+  updateElasticity();
+
+  /* ===== ELASTICITY TYPES GRAPH ===== */
+  const eCtx = document.getElementById("elasticityTypesChart").getContext("2d");
+
+  function flat(y) {
+    return [{ x: 0, y }, { x: 140, y }];
+  }
+  function vertical(x) {
+    return [{ x, y: 0 }, { x, y: 100 }];
+  }
+  function elastic() {
+    const pts = [];
+    for (let P = 10; P <= 100; P += 5) pts.push({ x: 140 - 1.6 * P, y: P });
+    return pts;
+  }
+  function inelastic() {
+    const pts = [];
+    for (let P = 10; P <= 100; P += 5) pts.push({ x: 80 - 0.3 * P, y: P });
+    return pts;
+  }
+  function unitary() {
+    const pts = [];
+    for (let P = 10; P <= 100; P += 5) pts.push({ x: 120 / P * 50, y: P });
+    return pts;
+  }
+
+  new Chart(eCtx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        { label: "Perfectly Elastic", data: flat(40), showLine: true },
+        { label: "Relatively Elastic", data: elastic(), showLine: true },
+        { label: "Unitary Elastic", data: unitary(), showLine: true },
+        { label: "Relatively Inelastic", data: inelastic(), showLine: true },
+        { label: "Perfectly Inelastic", data: vertical(50), showLine: true }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 140, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

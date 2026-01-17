@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Market Demand | Class 1</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Market Demand</h1>
+  <p>Horizontal summation of individual demands</p>
+</header>
+
+<main>
+
+<section class="class-card">
+  <h2>What is Market Demand?</h2>
+  <p>
+    Market demand is obtained by horizontally summing the individual
+    demand curves of all consumers at each price.
+  </p>
+</section>
+
+<section class="class-card">
+  <h2>Interactive Market Demand</h2>
+
+  <p>
+    Adjust the price to see how individual demands (A and B) combine
+    to form the market demand.
+  </p>
+
+  <label>
+    Price (P):
+    <strong><span id="priceValue">40</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="0" max="100" value="40" />
+
+  <div class="class-card" style="margin-top:1.5rem;">
+    <p>Consumer A Demand (Qₐ): <strong><span id="qaValue">40</span></strong></p>
+    <p>Consumer B Demand (Qᵦ): <strong><span id="qbValue">20</span></strong></p>
+    <p>Market Demand (Qₘ = Qₐ + Qᵦ): <strong><span id="qmValue">60</span></strong></p>
+  </div>
+
+  <canvas id="marketChart" width="650" height="420"></canvas>
+</section>
+
+<section class="class-card">
+  <h2>Demand Functions Used</h2>
+  <ul>
+    <li>Consumer A: Qₐ = 80 − P</li>
+    <li>Consumer B: Qᵦ = 60 − P</li>
+    <li>Market Demand: Qₘ = 140 − 2P</li>
+  </ul>
+</section>
+
+<section class="class-card">
+  <h2>Why Horizontal Summation?</h2>
+  <p>
+    At each price, quantities demanded by different consumers are added.
+    This is why market demand is always a horizontal, not vertical, summation.
+  </p>
+</section>
+
+<!-- ================= CLASS 1 PDF ================= -->
+<section class="class-card">
+  <h2>Class 1 Lecture Notes (PDF)</h2>
+  <iframe
+    src="../pdfs/class1/class1.pdf"
+    width="100%"
+    height="500px"
+    style="border:none; margin-top:1rem;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 1</p>
+</footer>
+
+<script>
+  const priceSlider = document.getElementById("priceSlider");
+  const priceValue = document.getElementById("priceValue");
+  const qaValue = document.getElementById("qaValue");
+  const qbValue = document.getElementById("qbValue");
+  const qmValue = document.getElementById("qmValue");
+
+  function QA(P) { return Math.max(80 - P, 0); }
+  function QB(P) { return Math.max(60 - P, 0); }
+
+  function demandCurve(func) {
+    const points = [];
+    for (let P = 0; P <= 100; P += 5) {
+      points.push({ x: func(P), y: P });
+    }
+    return points;
+  }
+
+  const ctx = document.getElementById("marketChart").getContext("2d");
+
+  const chart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Consumer A Demand",
+          data: demandCurve(QA),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Consumer B Demand",
+          data: demandCurve(QB),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Market Demand",
+          data: demandCurve(P => QA(P) + QB(P)),
+          showLine: true,
+          borderWidth: 3
+        },
+        {
+          label: "Current Price",
+          data: [],
+          pointRadius: 7
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: {
+          min: 0,
+          max: 160,
+          title: { display: true, text: "Quantity" }
+        },
+        y: {
+          min: 0,
+          max: 100,
+          title: { display: true, text: "Price" }
+        }
+      }
+    }
+  });
+
+  function updateMarket() {
+    const P = Number(priceSlider.value);
+    const qa = QA(P);
+    const qb = QB(P);
+    const qm = qa + qb;
+
+    priceValue.textContent = P;
+    qaValue.textContent = qa;
+    qbValue.textContent = qb;
+    qmValue.textContent = qm;
+
+    chart.data.datasets[3].data = [{ x: qm, y: P }];
+    chart.update();
+  }
+
+  priceSlider.addEventListener("input", updateMarket);
+  updateMarket();
+</script>
+
+</body>
+</html>
