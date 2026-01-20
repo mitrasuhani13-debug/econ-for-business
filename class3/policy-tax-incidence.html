@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tax Incidence & Elasticity | Class 3</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Tax Incidence & Elasticity</h1>
+  <p>Who really bears the burden of a tax?</p>
+</header>
+
+<main>
+
+<section class="class-card">
+  <h2>What is Tax Incidence?</h2>
+  <p>
+    Tax incidence refers to how the burden of a tax is shared between buyers
+    and sellers. It depends on relative elasticities, not on who the tax
+    is legally imposed upon.
+  </p>
+</section>
+
+<section class="class-card">
+  <h2>The Elasticity Principle</h2>
+  <ul>
+    <li>The less elastic side of the market bears more of the tax burden</li>
+    <li>Elastic side can avoid the tax more easily</li>
+    <li>Legal incidence ≠ economic incidence</li>
+  </ul>
+</section>
+
+<!-- ================= INTERACTIVE TAX ================= -->
+<section class="class-card">
+  <h2>Tax Incidence (Interactive)</h2>
+
+  <label>
+    Tax per unit (₹):
+    <strong><span id="taxValue">20</span></strong>
+  </label>
+  <input type="range" id="taxSlider" min="0" max="50" value="20" />
+
+  <div class="class-card" style="margin-top:1rem;">
+    <p>Price paid by buyers: ₹<strong><span id="pb">50</span></strong></p>
+    <p>Price received by sellers: ₹<strong><span id="ps">30</span></strong></p>
+    <p>Government revenue: ₹<strong><span id="gr">1000</span></strong></p>
+  </div>
+
+  <canvas id="taxChart" width="700" height="450"></canvas>
+</section>
+
+<!-- ================= ELASTIC VS INELASTIC ================= -->
+<section class="class-card">
+  <h2>Elastic vs Inelastic Demand</h2>
+  <p>
+    When demand is elastic, consumers reduce quantity significantly and
+    producers bear more tax. When demand is inelastic, consumers bear more tax.
+  </p>
+
+  <canvas id="elasticDemand" width="700" height="450"></canvas>
+  <canvas id="inelasticDemand" width="700" height="450"></canvas>
+</section>
+
+<section class="class-card">
+  <h2>Elastic vs Inelastic Supply</h2>
+  <p>
+    When supply is elastic, producers can adjust output easily and
+    consumers bear more tax. When supply is inelastic, producers bear more tax.
+  </p>
+
+  <canvas id="elasticSupply" width="700" height="450"></canvas>
+  <canvas id="inelasticSupply" width="700" height="450"></canvas>
+</section>
+
+<section class="class-card">
+  <h2>Numerical Illustration</h2>
+  <p>
+    Demand: Q = 100 − P <br />
+    Supply: Q = 20 + P
+  </p>
+  <p>
+    Equilibrium: P = 40, Q = 60 <br />
+    Tax = ₹20 → Buyers pay ₹50, Sellers receive ₹30
+  </p>
+</section>
+
+<section class="class-card">
+  <h2>Class 3 Lecture Notes (PDF)</h2>
+  <iframe
+    src="../pdfs/class3/class3.pdf"
+    width="100%"
+    height="500px"
+    style="border:none;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 3</p>
+</footer>
+
+<script>
+  /* ===== CORE FUNCTIONS ===== */
+  function demand(P) { return Math.max(100 - P, 0); }
+  function supply(P) { return Math.max(20 + P, 0); }
+  function supplyTax(P, t) { return Math.max(20 + (P - t), 0); }
+
+  function curve(fn) {
+    const pts = [];
+    for (let P = 0; P <= 100; P += 5) {
+      pts.push({ x: fn(P), y: P });
+    }
+    return pts;
+  }
+
+  /* ===== MAIN TAX INCIDENCE CHART ===== */
+  const ctx = document.getElementById("taxChart").getContext("2d");
+
+  let taxChart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        { label: "Demand", data: curve(demand), showLine: true },
+        { label: "Supply (after tax)", data: curve(P => supplyTax(P, 20)), showLine: true }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 140, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 100, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  const taxSlider = document.getElementById("taxSlider");
+  const taxValue = document.getElementById("taxValue");
+  const pb = document.getElementById("pb");
+  const ps = document.getElementById("ps");
+  const gr = document.getElementById("gr");
+
+  function updateTax() {
+    const t = Number(taxSlider.value);
+    taxValue.textContent = t;
+
+    const pbVal = 40 + t / 2;
+    const psVal = pbVal - t;
+    const q = Math.max(60 - t / 2, 0);
+
+    pb.textContent = pbVal;
+    ps.textContent = psVal;
+    gr.textContent = Math.round(t * q);
+
+    taxChart.data.datasets[1].data = curve(P => supplyTax(P, t));
+    taxChart.update();
+  }
+
+  taxSlider.addEventListener("input", updateTax);
+  updateTax();
+
+  /* ===== COMPARISON GRAPHS ===== */
+  function simpleChart(id, dFn, sFn) {
+    new Chart(document.getElementById(id).getContext("2d"), {
+      type: "scatter",
+      data: {
+        datasets: [
+          { label: "Demand", data: curve(dFn), showLine: true },
+          { label: "Supply", data: curve(sFn), showLine: true }
+        ]
+      },
+      options: {
+        parsing: false,
+        scales: {
+          x: { min: 0, max: 140 },
+          y: { min: 0, max: 100 }
+        }
+      }
+    });
+  }
+
+  simpleChart("elasticDemand", P => 140 - 1.8 * P, supply);
+  simpleChart("inelasticDemand", P => 80 - 0.2 * P, supply);
+  simpleChart("elasticSupply", demand, P => 10 + 2 * P);
+  simpleChart("inelasticSupply", demand, P => 40 + 0.1 * P);
+</script>
+
+</body>
+</html>

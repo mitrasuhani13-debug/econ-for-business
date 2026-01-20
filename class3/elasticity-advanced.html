@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Elasticity (Advanced) | Class 3</title>
+  <link rel="stylesheet" href="../style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<header>
+  <h1>Elasticity (Advanced)</h1>
+  <p>Point vs Arc Elasticity and Elasticity Along a Curve</p>
+</header>
+
+<main>
+
+<!-- ================= INTRO ================= -->
+<section class="class-card">
+  <h2>Why Advanced Elasticity?</h2>
+  <p>
+    In earlier classes, elasticity was treated as a single number.
+    In reality, elasticity varies depending on where you are on the demand curve.
+  </p>
+
+  <p class="example">
+    📌 The same demand curve can be elastic at one point and inelastic at another.
+  </p>
+</section>
+
+<!-- ================= ARC VS POINT ================= -->
+<section class="class-card">
+  <h2>Arc Elasticity vs Point Elasticity</h2>
+
+  <h3>Arc Elasticity</h3>
+  <p>
+    Arc elasticity measures elasticity over a **range** of prices and quantities.
+    It is used when price changes are relatively large.
+  </p>
+
+  <p class="example">
+    📐 Arc Elasticity Formula: <br />
+    PED =
+    (ΔQ / Average Q)
+    ÷
+    (ΔP / Average P)
+  </p>
+
+  <h3>Point Elasticity</h3>
+  <p>
+    Point elasticity measures elasticity at a **specific point** on the demand curve.
+    It is used when price changes are infinitesimally small.
+  </p>
+
+  <p class="example">
+    📐 Point Elasticity Formula: <br />
+    PED =
+    (dQ / dP) × (P / Q)
+  </p>
+</section>
+
+<!-- ================= LINEAR DEMAND ================= -->
+<section class="class-card">
+  <h2>Elasticity Along a Straight-Line Demand Curve</h2>
+
+  <p>
+    Consider a linear demand curve:
+  </p>
+
+  <p class="example">
+    Q = a − bP
+  </p>
+
+  <p>
+    Even though the slope is constant, elasticity is not.
+  </p>
+
+  <ul>
+    <li>Upper portion → Elastic demand</li>
+    <li>Midpoint → Unitary elastic</li>
+    <li>Lower portion → Inelastic demand</li>
+  </ul>
+
+  <p class="example">
+    📌 This is one of the most frequently tested concepts in exams.
+  </p>
+</section>
+
+<!-- ================= INTERACTIVE ================= -->
+<section class="class-card">
+  <h2>Elasticity Along the Demand Curve (Interactive)</h2>
+
+  <p>
+    Move the slider to change price and observe how elasticity changes
+    along the same demand curve.
+  </p>
+
+  <label>
+    Price (P):
+    <strong><span id="priceValue">50</span></strong>
+  </label>
+  <input type="range" id="priceSlider" min="10" max="100" value="50" />
+
+  <div class="class-card" style="margin-top:1.5rem;">
+    <p>Quantity (Q): <strong><span id="qValue">50</span></strong></p>
+    <p>Elasticity Type: <strong><span id="elasticityType">Unitary Elastic</span></strong></p>
+  </div>
+
+  <canvas id="advancedElasticityChart" width="650" height="420"></canvas>
+</section>
+
+<!-- ================= TR LOGIC ================= -->
+<section class="class-card">
+  <h2>Elasticity and Total Revenue (Formal Logic)</h2>
+
+  <p>
+    Total Revenue (TR) is defined as:
+  </p>
+
+  <p class="example">
+    TR = P × Q
+  </p>
+
+  <ul>
+    <li>If demand is elastic → price and TR move in opposite directions</li>
+    <li>If demand is inelastic → price and TR move in same direction</li>
+    <li>If demand is unitary elastic → TR is maximum</li>
+  </ul>
+</section>
+
+<!-- ================= NUMERICAL ================= -->
+<section class="class-card">
+  <h2>Numerical Illustration</h2>
+
+  <p>
+    Let the demand function be:
+  </p>
+
+  <p class="example">
+    Q = 120 − 2P
+  </p>
+
+  <p>
+    At P = 30:
+  </p>
+
+  <ul>
+    <li>Q = 60</li>
+    <li>dQ/dP = −2</li>
+  </ul>
+
+  <p class="example">
+    PED = (−2) × (30 / 60) = −1
+  </p>
+
+  <p>
+    Hence, demand is <strong>unitary elastic</strong> at this point.
+  </p>
+</section>
+
+<!-- ================= PDF ================= -->
+<section class="class-card">
+  <h2>Class 3 Lecture Notes (PDF)</h2>
+  <iframe
+    src="../pdfs/class3/class3.pdf"
+    width="100%"
+    height="500px"
+    style="border:none;"
+  ></iframe>
+</section>
+
+</main>
+
+<footer>
+  <p>Economics for Business • Class 3</p>
+</footer>
+
+<script>
+  const priceSlider = document.getElementById("priceSlider");
+  const priceValue = document.getElementById("priceValue");
+  const qValue = document.getElementById("qValue");
+  const elasticityType = document.getElementById("elasticityType");
+
+  function Q(P) {
+    return Math.max(120 - 2 * P, 0);
+  }
+
+  function demandData() {
+    const pts = [];
+    for (let P = 10; P <= 100; P += 5) {
+      pts.push({ x: Q(P), y: P });
+    }
+    return pts;
+  }
+
+  const ctx = document
+    .getElementById("advancedElasticityChart")
+    .getContext("2d");
+
+  const chart = new Chart(ctx, {
+    type: "scatter",
+    data: {
+      datasets: [
+        {
+          label: "Demand Curve",
+          data: demandData(),
+          showLine: true,
+          borderWidth: 2
+        },
+        {
+          label: "Current Point",
+          data: [{ x: 50, y: 50 }],
+          pointRadius: 7
+        }
+      ]
+    },
+    options: {
+      parsing: false,
+      scales: {
+        x: { min: 0, max: 130, title: { display: true, text: "Quantity" } },
+        y: { min: 0, max: 110, title: { display: true, text: "Price" } }
+      }
+    }
+  });
+
+  function updateElasticity() {
+    const P = Number(priceSlider.value);
+    const q = Q(P);
+
+    priceValue.textContent = P;
+    qValue.textContent = q;
+
+    let type = "Unitary Elastic";
+    if (P < 30) type = "Inelastic Demand";
+    if (P > 30) type = "Elastic Demand";
+
+    elasticityType.textContent = type;
+
+    chart.data.datasets[1].data = [{ x: q, y: P }];
+    chart.update();
+  }
+
+  priceSlider.addEventListener("input", updateElasticity);
+  updateElasticity();
+</script>
+
+</body>
+</html>
